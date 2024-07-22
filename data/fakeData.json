@@ -1,0 +1,32 @@
+[
+    {
+        "id": "d7d7b8c6-6e55-4cfb-84b9-1d6c6ab1db6a",
+        "reference": "LIV-001",
+        "prix_hors_taxe": 25.99
+    },
+    {
+        "id": "a3f2e9e2-9d6c-4745-bbce-5b2b576673b8",
+        "reference": "LIV-002",
+        "prix_hors_taxe": 19.99
+    },
+    {
+        "id": "c8e4b3f9-8a2c-4e8a-b2c6-3f4d9e1c7a5d",
+        "reference": "LIV-003",
+        "prix_hors_taxe": 32.50
+    },
+    {
+        "id": "f5a7c9e3-2b4d-4e6a-a1c3-8d9b5f6e7c2a",
+        "reference": "LIV-004",
+        "prix_hors_taxe": 21.75
+    },
+    {
+        "id": "b2c6d8e9-1a3f-4b5e-c7d9-6a2b3f4e8a2c",
+        "reference": "LIV-005",
+        "prix_hors_taxe": 28.99
+    },
+    {
+        "id": "e1a3b5c7-9d8b-4f6e-a2c1-3b5c7d9e8b4f",
+        "reference": "LIV-006",
+        "prix_hors_taxe": 17.50
+    }
+]

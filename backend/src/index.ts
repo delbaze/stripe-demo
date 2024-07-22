@@ -1,4 +1,5 @@
 import BookResolver from "./resolvers/book.resolver";
+import PaymentResolver from "./resolvers/payment.resolver";
 import UserResolver from "./resolvers/user.resolver";
 import datasource from "./lib/datasource";
 import { ApolloServer } from "@apollo/server";
@@ -30,7 +31,7 @@ const httpServer = http.createServer(app);
 
 async function main() {
   const schema = await buildSchema({
-    resolvers: [BookResolver, UserResolver],
+    resolvers: [BookResolver, PaymentResolver, UserResolver],
     validate: false,
     authChecker: customAuthChecker,
   });

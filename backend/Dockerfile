@@ -1,7 +1,7 @@
-FROM node:16-alpine3.14
-
+FROM node:lts-alpine
 RUN mkdir /app
 WORKDIR /app
+
 COPY package.json .
 RUN npm i 
 

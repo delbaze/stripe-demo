@@ -1,6 +1,8 @@
 services:
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
     ports:
       - 4005:4000
     volumes:
@@ -10,6 +12,7 @@ services:
       - ./global.env
       - ./backend/.env
       - ./secret.env
+    
     healthcheck:
       test:
         [
@@ -20,7 +23,9 @@ services:
       timeout: 30s
       retries: 5
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
     # command: "sh -c ./start.sh"
     ports:
       - 3000:3000

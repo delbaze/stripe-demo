@@ -16,6 +16,7 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   DateTimeISO: { input: any; output: any; }
+  JSON: { input: any; output: any; }
 };
 
 export type Book = {
@@ -83,10 +84,16 @@ export type MutationResetPasswordArgs = {
   email: Scalars['String']['input'];
 };
 
+export type ProductForSessionInput = {
+  id: Scalars['String']['input'];
+  quantity: Scalars['Int']['input'];
+};
+
 export type Query = {
   __typename?: 'Query';
   books: Array<Book>;
   checkResetToken: Message;
+  createSession: Scalars['JSON']['output'];
   login: Message;
   logout: Message;
   users: Array<User>;
@@ -95,6 +102,11 @@ export type Query = {
 
 export type QueryCheckResetTokenArgs = {
   token: Scalars['String']['input'];
+};
+
+
+export type QueryCreateSessionArgs = {
+  data: Array<ProductForSessionInput>;
 };
 
 
@@ -176,6 +188,13 @@ export type BooksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type BooksQuery = { __typename?: 'Query', books: Array<{ __typename?: 'Book', title: string, id: string }> };
+
+export type CreateSessionQueryVariables = Exact<{
+  data: Array<ProductForSessionInput> | ProductForSessionInput;
+}>;
+
+
+export type CreateSessionQuery = { __typename?: 'Query', createSession: any };
 
 
 export const RegisterDocument = gql`
@@ -477,3 +496,41 @@ export type BooksQueryHookResult = ReturnType<typeof useBooksQuery>;
 export type BooksLazyQueryHookResult = ReturnType<typeof useBooksLazyQuery>;
 export type BooksSuspenseQueryHookResult = ReturnType<typeof useBooksSuspenseQuery>;
 export type BooksQueryResult = Apollo.QueryResult<BooksQuery, BooksQueryVariables>;
+export const CreateSessionDocument = gql`
+    query CreateSession($data: [ProductForSessionInput!]!) {
+  createSession(data: $data)
+}
+    `;
+
+/**
+ * __useCreateSessionQuery__
+ *
+ * To run a query within a React component, call `useCreateSessionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCreateSessionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCreateSessionQuery({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateSessionQuery(baseOptions: Apollo.QueryHookOptions<CreateSessionQuery, CreateSessionQueryVariables> & ({ variables: CreateSessionQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CreateSessionQuery, CreateSessionQueryVariables>(CreateSessionDocument, options);
+      }
+export function useCreateSessionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CreateSessionQuery, CreateSessionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CreateSessionQuery, CreateSessionQueryVariables>(CreateSessionDocument, options);
+        }
+export function useCreateSessionSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<CreateSessionQuery, CreateSessionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<CreateSessionQuery, CreateSessionQueryVariables>(CreateSessionDocument, options);
+        }
+export type CreateSessionQueryHookResult = ReturnType<typeof useCreateSessionQuery>;
+export type CreateSessionLazyQueryHookResult = ReturnType<typeof useCreateSessionLazyQuery>;
+export type CreateSessionSuspenseQueryHookResult = ReturnType<typeof useCreateSessionSuspenseQuery>;
+export type CreateSessionQueryResult = Apollo.QueryResult<CreateSessionQuery, CreateSessionQueryVariables>;
