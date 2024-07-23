@@ -55,16 +55,10 @@ function Checkout() {
   const prices = calculatePrices();
 
   const [getStripeSession, { data }] = useCreateSessionLazyQuery();
-  const router = useRouter();
   const handleGetStripeSession = () => {
     getStripeSession({
       variables: {
         data: cart.map((item) => ({ id: item.id, quantity: item.quantity })),
-      },
-      onCompleted(data) {
-        console.log("%c⧭", "color: #0088cc", data);
-
-        // router.push(data.createSession.url);
       },
       onError(error) {
         console.log(error);
@@ -162,18 +156,10 @@ function Checkout() {
                   </span>
                 </div>
                 {cart.length > 0 && (
-                  
                   <PaymentModule
                     clientSecret={data?.createSession?.client_secret}
                   />
                 )}
-                {/* <button
-                  disabled={cart.length === 0}
-                  className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full"
-                  onClick={handleGetStripeSession}
-                >
-                  Checkout
-                </button> */}
               </div>
             </div>
           </div>

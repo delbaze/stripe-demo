@@ -25,12 +25,13 @@ export default class PaymentService {
     return +data
       .reduce((prev, curr) => {
         const itemInMemory = fakedData.find((i) => i.id === curr.id);
+        console.log("%c⧭", "color: #006dcc", itemInMemory);
         if (!itemInMemory) {
           throw new Error("Ce produit n'existe pas");
         }
         const prix_hors_taxe = itemInMemory?.prix_hors_taxe;
-        const taxes = prix_hors_taxe * 0.2;
-        const prixTTC = prix_hors_taxe + taxes;
+        const taxes = prix_hors_taxe * 0.2 * curr.quantity;
+        const prixTTC = prix_hors_taxe * curr.quantity + taxes;
         return prev + prixTTC;
       }, 0)
       .toFixed(2);
