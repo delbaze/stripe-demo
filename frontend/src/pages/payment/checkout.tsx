@@ -7,8 +7,10 @@
  * Puis, vous enverrez à votre back la quantité et la référence (l'id par exemple) à votre back.
  * Et votre back RECALCULERA le montant total à partir de là.
  * Puis, votre back demandera à Stripe de générer une instance de paiement via son API.
- * Stripe lui renverra un objet avec notamment une url de paiement.
- * Cette url est hébergée chez Stripe (elle est d'ailleurs personnalisable depuis le dashboard de Stripe)
+ * Il faut installer cette fois ces modules sur le front :
+ * npm install --save @stripe/react-stripe-js @stripe/stripe-js
+ * Il nous faut utiliser la clé publique que stripe vous fourni.
+ * Je mets ça dans notre fichier d'environnement.
  *
  * Pour illustrer l'exemple, j'ai prévu un faux panier json que je partagerai avec le back et le front.
  *
@@ -16,10 +18,12 @@
  * La clé secrète de stripe obtenue depuis le dashboard stripe doit également être côté backend
  *
  *------------------------**/
+import PaymentModule from "@/components/layout-elements/PaymentModule";
 import useCart from "@/contexts/useCart";
 import { useCreateSessionLazyQuery } from "@/types/graphql";
 import { formatMoney } from "@/utilities";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 interface Prices {
   subtotal: number;
@@ -50,7 +54,7 @@ function Checkout() {
   };
   const prices = calculatePrices();
 
-  const [getStripeSession] = useCreateSessionLazyQuery();
+  const [getStripeSession, { data }] = useCreateSessionLazyQuery();
   const router = useRouter();
   const handleGetStripeSession = () => {
     getStripeSession({
@@ -58,13 +62,18 @@ function Checkout() {
         data: cart.map((item) => ({ id: item.id, quantity: item.quantity })),
       },
       onCompleted(data) {
-        router.push(data.createSession.url);
+        console.log("%c⧭", "color: #0088cc", data);
+
+        // router.push(data.createSession.url);
       },
       onError(error) {
         console.log(error);
       },
     });
   };
+  useEffect(() => {
+    handleGetStripeSession();
+  }, []);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="bg-gray-100 h-screen w-screen py-8">
@@ -84,7 +93,7 @@ function Checkout() {
                   </thead>
                   <tbody>
                     {cart.map((d) => (
-                      <tr>
+                      <tr key={d.id}>
                         <td className="py-4">
                           <div className="flex items-center">
                             {/* <img className="h-16 w-16 mr-4" src="https://via.placeholder.com/150" alt="Product image"> */}
@@ -152,13 +161,19 @@ function Checkout() {
                     {formatMoney(prices.total)}
                   </span>
                 </div>
-                <button
+                {cart.length > 0 && (
+                  
+                  <PaymentModule
+                    clientSecret={data?.createSession?.client_secret}
+                  />
+                )}
+                {/* <button
                   disabled={cart.length === 0}
                   className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full"
                   onClick={handleGetStripeSession}
                 >
                   Checkout
-                </button>
+                </button> */}
               </div>
             </div>
           </div>
