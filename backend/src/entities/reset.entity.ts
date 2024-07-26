@@ -47,6 +47,6 @@ export default class Reset {
   user: User;
 
   @Field()
-  @Column({ type: "datetime" })
+  @Column({ type: "timestamp" })
   expirationDate: Date;
 }

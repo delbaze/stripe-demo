@@ -1,9 +1,11 @@
 import { DataSource } from "typeorm";
 
 export default new DataSource({
-  type: "sqlite",
-  database: "./demo.sqlite",
-  synchronize: true,
-  entities: ["src/entities/*.ts"],
-  logging: ["query", "error"],
+    type: "postgres",
+    host: "db",
+    username: "postgres",
+    password: "postgres",
+    synchronize: true,
+    entities: ["src/entities/*.ts"],
+    logging: ["query", "error"],
 });

@@ -48,6 +48,7 @@ export default class PaymentService {
     const session = await this.stripe.paymentIntents.create({
       amount: totalAmount,
       currency: "eur",
+      metadata: {message: "coucou"}
     });
     return session;
   }
